@@ -4,10 +4,9 @@ import com.sapient.creditcard.app.demo.dto.CreditCard;
 import com.sapient.creditcard.app.demo.repository.CCRepository;
 import com.sapient.creditcard.app.demo.utility.CCUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CreditCardController {
@@ -15,13 +14,13 @@ public class CreditCardController {
     @Autowired
     private CCRepository ccRepository;
 
-    @RequestMapping(name = "addCard", method = RequestMethod.GET, path = "/addCard")
-    @ResponseBody
-    public String addCreditCard(){
-        String response = "";
-        if(CCUtility.isCardValidNumber("card.getCardNo()"))
-            return "card added";
+    @PostMapping
+    public ResponseEntity addCreditCard(@RequestParam String name,
+                                        @RequestParam String cardNo,
+                                        @RequestParam int limit){
+        ResponseEntity response = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 
+        
         return response;
     }
 }
