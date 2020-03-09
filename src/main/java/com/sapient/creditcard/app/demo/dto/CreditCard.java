@@ -25,7 +25,7 @@ public class CreditCard {
     private String cardNo;
 
     @Column(name = "f_currency")
-    private String currency = Currency.getInstance(Locale.UK).getCurrencyCode();
+    private String currency;
 
     @Column(name = "f_balance")
     private double balance;
@@ -36,5 +36,6 @@ public class CreditCard {
     @PrePersist
     public void onSave(){
         balance = 0;
+        currency = Currency.getInstance(Locale.UK).getCurrencyCode();
     }
 }

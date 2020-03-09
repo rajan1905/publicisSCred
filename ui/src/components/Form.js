@@ -12,6 +12,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import axios from 'axios';
+
 const styles = theme => ({
     root: {
         "& > *": {
@@ -44,11 +46,19 @@ class Form extends React.Component{
     }
 
     handleSubmit(event) {
-        alert('A name was submitted: '+ this.state.limit);
-        this.setState({
-            openDialog: true
-          });
-        event.preventDefault();
+        const card = {
+            uName: this.state.vName,
+            card: this.state.vCreditCard,
+            limit: this.state.vLimit
+          };
+
+          axios.post(`/addCard`, null , { params: {
+            uName: card.uName,
+            card: card.card,
+            limit: card.limit
+          }}).then(response => this.setState({items: response.data}))
+          .catch(err => console.log(err))
+          event.preventDefault();
     }
 
     handleClose(event){

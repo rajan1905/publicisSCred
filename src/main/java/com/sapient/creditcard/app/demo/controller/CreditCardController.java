@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class CreditCardController {
 
@@ -18,18 +19,18 @@ public class CreditCardController {
     private CCRepository ccRepository;
 
     @PostMapping(path = "addCard")
-    public ResponseEntity addCreditCard(@RequestParam String name,
-                                        @RequestParam String cardNo,
-                                        @RequestParam int limit){
+    public ResponseEntity addCreditCard(@RequestParam(name = "uName") String uName,
+                                        @RequestParam(name = "card") String card,
+                                        @RequestParam(name = "limit") int limit){
         ResponseEntity response = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        Optional<CreditCard> card = ccRepository.findCreditCardByCardNo(cardNo);
+        Optional<CreditCard> cardPresent = ccRepository.findCreditCardByCardNo(card);
 
-        if(!card.isPresent()){
+        if(!cardPresent.isPresent()){
             CreditCard creditCard = CreditCard.builder()
-                    .cardNo(cardNo)
+                    .cardNo(card)
                     .balance(limit)
-                    .name(name)
+                    .name(uName)
                     .build();
 
             CreditCard cardSave = ccRepository.saveAndFlush(creditCard);
