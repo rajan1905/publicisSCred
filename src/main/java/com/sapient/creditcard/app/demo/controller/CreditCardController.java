@@ -2,6 +2,7 @@ package com.sapient.creditcard.app.demo.controller;
 
 import com.sapient.creditcard.app.demo.dto.CreditCard;
 import com.sapient.creditcard.app.demo.repository.CCRepository;
+import com.sapient.creditcard.app.demo.utility.CCUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class CreditCardController {
 
         Optional<CreditCard> cardPresent = ccRepository.findCreditCardByCardNo(card);
 
-        if(!cardPresent.isPresent()){
+        if(!cardPresent.isPresent() && CCUtility.isCardValidNumber(card)){
             CreditCard creditCard = CreditCard.builder()
                     .cardNo(card)
                     .balance(limit)
@@ -43,7 +44,6 @@ public class CreditCardController {
     }
 
     @GetMapping(path = "getAllCards")
-    @Cacheable(cacheNames = "allCardsCache")
     public List<CreditCard> getAllCards(){
         return ccRepository.findAll();
     }
