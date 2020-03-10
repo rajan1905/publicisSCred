@@ -30,7 +30,7 @@ public class CreditCardController {
         if(!cardPresent.isPresent() && CCUtility.isCardValidNumber(card)){
             CreditCard creditCard = CreditCard.builder()
                     .cardNo(card)
-                    .balance(limit)
+                    .limit(limit)
                     .name(uName)
                     .build();
 
